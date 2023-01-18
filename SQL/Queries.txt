@@ -1,0 +1,49 @@
+-- Command to create a Database
+
+CREATE DATABASE test;
+
+-- number of DATABASES
+SHOW DATABASES;
+
+-- Go inside the DATABASE
+USE test;
+
+-- Create a TABLE
+CREATE TABLE IF NOT EXISTS employee
+(
+    id INT,
+    name VARCHAR(50)
+);
+
+-- list of all TABLES
+SHOW TABLES;
+
+-- To get the "CREATE TABLE" command of a different TABLE
+SHOW CREATE TABLE employee;
+
+-- DROP table "employee"
+DROP TABLE emolpyee;
+
+-- CREATE another TABLE
+CREATE TABLE IF NOT EXISTS employee
+(
+    id INT,
+    name VARCHAR(50),
+    salary DOUBLE,
+    hiring_date DATE
+);
+
+-- INSERT data into the TABLE: Syntax 1
+INSERT INTO employee VALUES(1, 'abc', 101.1, '2021-06-15');
+
+-- INSERT data into the TABLE: Syntax 2
+INSERT INTO employee(salary, name, id) VALUES(21.65, 'def', 2);
+
+-- INSERT multiple rows using a single INSERT command
+INSERT INTO employee VALUES(3, 'ghi', 304.45, '2021-12-15'),(4, 'jkl', 34.56, '2021-12-18'),(5, 'mno', 56.75, '2021-12-25');
+
+-- SELECT all the rows from the TABLE
+SELECT * from employee;
+
+-- select specific COLUMNS
+SELECT id, name from employee;
