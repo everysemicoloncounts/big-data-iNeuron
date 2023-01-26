@@ -1,8 +1,15 @@
+Constructing the database `Assignments`
+
 ```
 CREATE DATABASE assignments;
 
 USE assignments;
 
+```
+
+Creating table `city`
+
+```
 CREATE TABLE city (
   ID INT NOT NULL PRIMARY KEY,
   NAME VARCHAR(255),
@@ -11,6 +18,11 @@ CREATE TABLE city (
   POPULATION INT
 );
 
+```
+
+Inserting values into table `city`
+
+```
 INSERT INTO city
   (ID,NAME,COUNTRYCODE,DISTRICT,POPULATION)
 VALUES
@@ -98,6 +110,11 @@ VALUES
   (4058,'Boulder','USA','Colorado',91238),
   (4061,'Fall River','USA','Massachusetts',90555);
 
+```
+
+Checking the vales of the table `city`
+
+```
 SELECT * FROM city;
 
 ```
@@ -144,6 +161,8 @@ WHERE COUNTRYCODE = 'JPN';
 
 ```
 
+Creating a table `Station`
+
 ```
 CREATE TABLE STATION (
   Id INT NOT NULL PRIMARY KEY,
@@ -153,8 +172,11 @@ CREATE TABLE STATION (
   Long_W INT
 );
 
-DROP TABLE STATION;
+```
 
+Insering values into table `Station`
+
+```
 INSERT INTO STATION
   (Id,City,State,Lat_N,Long_W)
 VALUES
@@ -657,7 +679,12 @@ VALUES
   (376,'Gorham','KS',111,64),
   (136,'Bass Harbor','ME',137,61),
   (455,'Granger','IA',33,102);
-  
+
+```
+
+Checking the values in the table `Station`
+
+```
 SELECT * FROM STATION;
 
 ```
@@ -747,5 +774,170 @@ WHERE city NOT REGEXP "^[aeiou].*" OR CITY NOT REGEXP "[aeiou]$";
 SELECT DISTINCT (city)
 FROM station
 WHERE city NOT REGEXP "^[aeiou].*" AND CITY NOT REGEXP "[aeiou]$";
+
+```
+
+Creating a table `Product`
+
+```
+CREATE TABLE product (
+  product_id INT NOT NULL PRIMARY KEY,
+  product_name VARCHAR(255),
+  unit_price INT
+);
+
+```
+
+Inserting values into the table `Product`
+
+```
+INSERT INTO product
+  (product_id,product_name,unit_price)
+VALUES
+  (1, 'S8', 1000),
+  (2, 'G4', 800),
+  (3, 'iPhone', 1400);
+
+```
+
+Checking the values inserted in the table `Product`
+
+```
+SELECT * FROM product;
+
+```
+
+Creating a table `Sales`
+
+```
+CREATE TABLE Sales (
+  seller_id INT,
+  product_id INT,
+  buyer_id INT,
+  sale_date DATE,
+  quantity INT,
+  price INT
+);
+
+```
+Inserting the values into the table `Sales`
+
+```
+INSERT INTO Sales
+  (seller_id,product_id,buyer_id,sale_date,quantity,price)
+VALUES
+  (1, 1, 1, '2019-01-21', 2, 2000),
+  (1, 2, 2, '2019-02-17', 1, 800),
+  (2, 2, 3, '2019-06-02', 1, 800),
+  (3, 3, 4, '2019-05-13', 2, 2800);
+
+```
+
+Checking the values in the table `Sales`
+
+```
+SELECT * FROM SALES;
+
+```
+
+17. 
+```
+SELECT p.PRODUCT_ID, p.PRODUCT_NAME
+FROM PRODUCT p
+INNER JOIN SALES s
+ON p.PRODUCT_ID = s.PRODUCT_ID
+WHERE s.SALE_DATE BETWEEN '2019-01-01' AND '2019-03-31'
+AND p.PRODUCT_ID NOT IN (
+	SELECT p.PRODUCT_ID
+	FROM PRODUCT p
+	INNER JOIN SALES s
+	ON p.PRODUCT_ID = s.PRODUCT_ID
+	WHERE s.SALE_DATE BETWEEN '2019-04-01' AND '2019-12-31'
+);
+
+```
+
+Creating a table `Views`
+
+```
+CREATE TABLE VIEWS (
+  article_id INT,
+  author_id INT,
+  viewer_id INT,
+  view_date DATE
+);
+
+```
+
+Inserting into the the table `Views`
+
+```
+INSERT INTO VIEWS
+  (article_id,author_id,viewer_id,view_date)
+VALUES
+  (1, 3, 5, '2019-08-01'),
+  (1, 3, 6, '2019-08-02'),
+  (2, 7, 7, '2019-08-01'),
+  (2, 7, 6, '2019-08-02'),
+  (4, 7, 1, '2019-07-22'),
+  (3, 4, 4, '2019-07-21'),
+  (3, 4, 4, '2019-07-21');
+
+```
+
+Checking the values in the table `Views`
+
+```
+SELECT * FROM VIEWS;
+
+```
+
+18. 
+```
+SELECT DISTINCT AUTHOR_ID AS ID
+FROM views
+WHERE AUTHOR_ID = VIEWER_ID;
+
+```
+
+Creating a table `Delivery`
+
+```
+CREATE TABLE DELIVERY (
+  delivery_id INT NOT NULL PRIMARY KEY,
+  customer_id INT,
+  order_date DATE,
+  customer_pref_delivery_date DATE
+);
+
+```
+
+Inserting into the table `Delivery`
+
+```
+INSERT INTO DELIVERY
+  (delivery_id,customer_id,order_date,customer_pref_delivery_date)
+VALUES
+  (1, 1, '2019-08-01', '2019-08-02'),
+  (2, 5, '2019-08-02', '2019-08-02'),
+  (3, 1, '2019-08-11', '2019-08-11'),
+  (4, 3, '2019-08-24', '2019-08-26'),
+  (5, 4, '2019-08-21', '2019-08-22'),
+  (6, 2, '2019-08-11', '2019-08-13');
+
+```
+
+Checking the values in the table `Delivery`
+
+```
+SELECT * FROM DELIVERY;
+
+```
+
+19. 
+```
+SELECT (COUNT(DELIVERY_ID)*100/ (SELECT COUNT(*) FROM DELIVERY)) AS immediate_percentage
+FROM DELIVERY
+WHERE order_date = customer_pref_delivery_date;
 
 ```
