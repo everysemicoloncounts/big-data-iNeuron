@@ -226,6 +226,111 @@ select tmp.player_id, tmp.device_id from
 
 26. 
 ```
+SELECT 
+    p.product_name, SUM(o.unit)
+FROM
+    orders o
+        INNER JOIN
+    products p ON p.product_id = o.product_id
+WHERE
+    order_date BETWEEN '2020-02-01' AND '2020-02-29'
+GROUP BY p.product_id
+HAVING SUM(o.unit) >= 100;
 
+```
+
+27. 
+```
+SELECT 
+    *
+FROM
+    Users
+WHERE
+    REGEXP_LIKE(mail,
+            '^[a-zA-Z][a-zA-Z0-9\_.-]*@leetcode.com');
+
+```
+28. 
+```
+SELECT 
+    o.customer_id, c.name
+FROM
+    orders o
+        INNER JOIN
+    product p ON p.product_id = o.product_id
+        INNER JOIN
+    Customers c ON c.customer_id = o.customer_id
+WHERE
+    o.order_date BETWEEN '2020-07-01' AND '2020-07-31'
+GROUP BY o.customer_id
+    AND o.customer_id IN (SELECT 
+        o.customer_id
+    FROM
+        orders o
+            INNER JOIN
+        product p ON p.product_id = o.product_id
+            INNER JOIN
+        Customers c ON c.customer_id = o.customer_id
+    WHERE
+        o.order_date BETWEEN '2020-06-01' AND '2020-06-30'
+    GROUP BY o.customer_id);
+
+```
+29. 
+```
+SELECT 
+    c.title
+FROM
+    content c
+        INNER JOIN
+    TVProgram t ON t.content_id = c.content_id
+WHERE
+    c.kids_content = 'Y'
+        AND t.program_date BETWEEN '2020-06-01 00:00' AND '2020-06-30 23:59';
+
+```
+30. 
+```
+SELECT 
+    q.*, IFNULL(n.npv, 0)
+FROM
+    queries q
+        LEFT JOIN
+    npv n ON q.id = n.id AND q.year = n.year;
+
+```
+
+31. 
+```
+SELECT 
+    q.*, IFNULL(n.npv, 0)
+FROM
+    queries q
+        LEFT JOIN
+    npv n ON q.id = n.id AND q.year = n.year;
+
+```
+
+32. 
+```
+SELECT 
+    u.unique_id, e.name
+FROM
+    employees e
+        LEFT JOIN
+    employeeUNI u ON e.id = u.id;
+
+```
+
+33. 
+```
+SELECT 
+    u.name, IFNULL(SUM(r.distance), 0)
+FROM
+    rides r
+        RIGHT JOIN
+    users u ON u.id = r.user_id
+GROUP BY u.id
+ORDER BY SUM(r.distance) DESC , u.name;
 
 ```
