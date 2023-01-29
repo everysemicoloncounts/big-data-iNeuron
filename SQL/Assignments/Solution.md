@@ -334,3 +334,42 @@ GROUP BY u.id
 ORDER BY SUM(r.distance) DESC , u.name;
 
 ```
+
+34. 
+
+```
+SELECT 
+    a.product_name, SUM(unit) AS unit
+FROM
+    Products a
+        LEFT JOIN
+    Orders b ON a.product_id = b.product_id
+WHERE
+    b.order_date BETWEEN '2020-02-01' AND '2020-02-29'
+GROUP BY a.product_id
+HAVING SUM(unit) >= 100
+
+```
+
+35. 
+
+`Find the name of the user who has rated the greatest number of movies. In case of a tie,
+return the lexicographically smaller user name.`
+```
+SELECT 
+    u.name
+FROM
+    rating r
+        INNER JOIN
+    users u ON u.user_id = r.user_id
+GROUP BY r.user_id
+ORDER BY u.name
+LIMIT 1;
+
+```
+`Find the movie name with the highest average rating in February 2020. In case of a tie, return
+the lexicographically smaller movie name.`
+```
+
+
+```
