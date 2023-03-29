@@ -119,7 +119,10 @@ select sum(SALES) as total_sales_in_each_quater, QTR_ID from sales_order_data_or
 
 # d. In which quarter sales was minimum
 
+```
 select sum(SALES) as total_sales_in_each_quater, QTR_ID from sales_order_data_orc group by QTR_ID order by total_sales_in_each_quater limit 1;
+
+```
 
 # e. In which country sales was maximum and in which country sales was minimum
 
