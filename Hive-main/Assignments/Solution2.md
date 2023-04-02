@@ -21,6 +21,34 @@ In addition to using an external database, you can also use ZooKeeper to configu
 `3. Suppose, I create a table that contains details of all the transactions done by the customers: CREATE TABLE transaction_details (cust_id INT, amount FLOAT, month STRING, country STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ‘,’ ;
 Now, after inserting 50,000 records in this table, I want to know the total revenue generated for each month. But, Hive is taking too much time in processing this query. How will you solve this problem and list the steps that I will be taking in order to do so?`
 
+To solve the problem of slow query processing in Hive for calculating total revenue generated for each month from the "transaction_details" table with 50,000 records, the following steps can be taken:
+
+    1. Partition the table: Partitioning the table by the "month" column can significantly speed up the query processing. This can be done using the following command:
+    ```
+    ALTER TABLE transaction_details ADD PARTITION (month='Jan') LOCATION '/path/to/Jan';
+
+    ```
+    The above command creates a partition for the "Jan" month and specifies the location where the data for that partition will be stored.
+    Repeat this command for all the other months in the table.
+
+    2. Use the partitioned column in the query: Modify the query to use the partitioned column in the WHERE clause to filter the data for each month. This will limit the amount of data that needs to be processed by the query.
+    ```
+    SELECT month, SUM(amount) as total_revenue 
+    FROM transaction_details 
+    WHERE month='Jan'
+    GROUP BY month;
+
+    ```
+    Repeat the above query for all the other months in the table.
+
+    3. Use bucketing: Bucketing can also help in improving query performance by dividing data into smaller and more manageable chunks. However, in this case, since the table has only 50,000 records, partitioning should be sufficient.
+
+    4. Optimize query configuration: If the above steps don't improve the query performance, then you can try optimizing the query configuration parameters such as the number of reducers and the memory allocation for each task.
+    For example, you can increase the number of reducers to distribute the processing workload across multiple nodes, or increase the memory allocation for each task to avoid out-of-memory errors.
+
+By following the above steps, the query processing time can be significantly reduced, and you can get the total revenue generated for each month from the "transaction_details" table more efficiently.
+
+
 `4. How can you add a new partition for the month December in the above partitioned table?`
 
 `5. I am inserting data into a table based on partitions dynamically. But, I received an error – FAILED ERROR IN SEMANTIC ANALYSIS: Dynamic partition strict mode requires at least one static partition column. How will you remove this error?`
