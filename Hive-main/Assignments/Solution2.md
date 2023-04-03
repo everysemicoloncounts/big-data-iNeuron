@@ -1,4 +1,4 @@
-# Scenario Based questions:
+## Scenario Based questions:
 
 `1. Will the reducer work or not if you use “Limit 1” in any HiveQL query?`
 
@@ -146,8 +146,69 @@ By following these steps, you can consume a CSV file using built-in SerDe into t
 `7. Suppose, I have a lot of small CSV files present in the input directory in HDFS and I want to create a single Hive table corresponding to these files. The data in these files are in the format: {id, name, e-mail, country}. Now, as we know, Hadoop performance degrades when we use lots of small files.
 So, how will you solve this problem where we want to create a single Hive table for lots of small files without degrading the performance of the system?`
 
+To solve the problem of creating a single Hive table for lots of small files without degrading the performance of the system, you can use the following approach:
+
+1. Combine the small CSV files using Hadoop's `getmerge` command or any other tool that merges multiple files into a single file. This will create a single large file that can be used to create the Hive table.
+
+2. Create an external table in Hive with the same schema as the CSV files using the following command:
+
+```
+CREATE EXTERNAL TABLE my_table (
+  id INT,
+  name STRING,
+  email STRING,
+  country STRING
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/path/to/combined/file';
+
+```
+
+This command creates an external table "my_table" with the same columns as the CSV files, and uses the built-in TEXTFILE SerDe for parsing the data.
+
+3. Load the data into the Hive table using the following command:
+
+```
+LOAD DATA INPATH '/path/to/combined/file' INTO TABLE my_table;
+
+```
+This command loads the data from the combined file into the external table "my_table". Hive will use the specified SerDe to parse the data and populate the table.
+
+By using this approach, you can create a single Hive table for lots of small CSV files without degrading the performance of the system. Merging small files reduces the number of files that Hadoop has to deal with, which can improve performance. Additionally, using an external table in Hive allows you to keep the data in HDFS, while still being able to query it using HiveQL.
+
 `8. LOAD DATA LOCAL INPATH ‘Home/country/state/’
 OVERWRITE INTO TABLE address;
 The following statement failed to execute. What can be the cause?`
 
+The `LOAD DATA LOCAL INPATH` command failed to execute because the path specified in the command is not an absolute path, and is missing the leading forward slash ("/").
+
+Assuming that the "Home" directory is the root directory ("/") of the file system, the correct path to use in the command should be:
+
+```
+LOAD DATA LOCAL INPATH '/Home/country/state/'
+OVERWRITE INTO TABLE address;
+
+```
+
+The forward slash at the beginning of the path indicates that it is an absolute path, and specifies the root directory of the file system. Without the leading slash, Hive will look for the specified path relative to its current working directory, which may not be what was intended.
+
 `9. Is it possible to add 100 nodes when we already have 100 nodes in Hive? If yes, how?`
+
+Yes, it is possible to add 100 nodes to a Hive cluster that already has 100 nodes. This can be done by adding new nodes to the Hadoop cluster and configuring Hive to use the new nodes.
+
+The process of adding new nodes to a Hadoop cluster typically involves the following steps:
+
+1. Install Hadoop and configure the new nodes to join the existing Hadoop cluster.
+2. Configure the new nodes to use the same version of Hadoop and have the same configuration settings as the existing nodes in the cluster.
+3. Update the Hadoop configuration files on the new nodes to include the same settings as the existing nodes. This includes settings for HDFS, YARN, and MapReduce.
+4. Start the Hadoop services on the new nodes.
+5. Verify that the new nodes are properly configured and can communicate with the existing nodes in the cluster.
+
+Once the new nodes are added to the Hadoop cluster, Hive can be configured to use the new nodes by updating the configuration settings for Hive. This typically involves updating the `hive-site.xml` file to include the new nodes in the list of available nodes.
+
+Once the configuration is updated, Hive will be able to use the new nodes in its processing. This can help to increase the processing capacity of the Hive cluster and improve performance for large-scale data processing.
+
+
+## Hive Practical questions:
