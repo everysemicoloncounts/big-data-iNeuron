@@ -78,10 +78,70 @@ After executing the above steps, the partition for the month of December will be
 
 `5. I am inserting data into a table based on partitions dynamically. But, I received an error – FAILED ERROR IN SEMANTIC ANALYSIS: Dynamic partition strict mode requires at least one static partition column. How will you remove this error?`
 
+The error "FAILED ERROR IN SEMANTIC ANALYSIS: Dynamic partition strict mode requires at least one static partition column" occurs when you try to insert data into a partitioned table dynamically without specifying at least one static partition column. This error can be removed by disabling dynamic partitioning strict mode or by specifying at least one static partition column in the INSERT statement.
+
+To disable dynamic partitioning strict mode, use the following command before inserting the data into the partitioned table:
+
+```
+SET hive.exec.dynamic.partition.mode=nonstrict;
+
+```
+
+This command will disable dynamic partitioning strict mode and allow you to insert data into the partitioned table without specifying a static partition column.
+
+Alternatively, you can specify at least one static partition column in the INSERT statement to avoid the error. For example, if your partitioned table has two partition columns "month" and "country", and you want to insert data for the month of January and country "US" dynamically, you can use the following INSERT statement:
+
+```
+INSERT INTO TABLE my_table PARTITION (month='Jan', country) VALUES ('value1', 'value2');
+
+```
+
+In the above statement, the "month" partition column is static, and the "country" partition column is dynamic. By specifying a static partition column, you can avoid the error and insert data into the partitioned table dynamically.
+
 `6. Suppose, I have a CSV file – "sample.csv" present in "/temp" directory with the following entries\-
 id first_name last_name email gender ip_address
 How will you consume this CSV file into the Hive warehouse using built-in SerDe?`
 
+To consume a CSV file "sample.csv" present in the "/temp" directory into the Hive warehouse using built-in SerDe, follow these steps:
+
+1. Create an external table in Hive using the following command:
+
+```
+CREATE EXTERNAL TABLE sample_table (
+  id INT,
+  first_name STRING,
+  last_name STRING,
+  email STRING,
+  gender STRING,
+  ip_address STRING
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+  'separatorChar' = ',',
+  'quoteChar'     = '\"'
+)
+LOCATION '/temp';
+
+```
+This command will create an external table "sample_table" in Hive, with the same columns as the CSV file, and using the built-in OpenCSVSerde for parsing the CSV data.
+
+2. Load the data from the CSV file into the table using the following command:
+
+```
+LOAD DATA INPATH '/temp/sample.csv' INTO TABLE sample_table;
+
+```
+This command will load the data from the CSV file into the external table "sample_table". Hive will use the specified SerDe to parse the CSV data and populate the table.
+
+3. Verify the data is loaded correctly using the following command:
+
+```
+SELECT * FROM sample_table;
+
+```
+This command will display all the records from the external table "sample_table" that was loaded from the CSV file.
+
+By following these steps, you can consume a CSV file using built-in SerDe into the Hive warehouse and query the data using HiveQL.
 
 `7. Suppose, I have a lot of small CSV files present in the input directory in HDFS and I want to create a single Hive table corresponding to these files. The data in these files are in the format: {id, name, e-mail, country}. Now, as we know, Hadoop performance degrades when we use lots of small files.
 So, how will you solve this problem where we want to create a single Hive table for lots of small files without degrading the performance of the system?`
