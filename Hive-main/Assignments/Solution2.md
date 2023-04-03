@@ -213,19 +213,16 @@ Once the configuration is updated, Hive will be able to use the new nodes in its
 
 ## Hive Practical questions:
 
-`
-Hive Join operations
+`1. Hive Join operations
 
 Create a  table named CUSTOMERS(ID | NAME | AGE | ADDRESS   | SALARY)
 Create a Second  table ORDER(OID | DATE | CUSTOMER_ID | AMOUNT
 )
 
 Now perform different joins operations on top of these tables
-(Inner JOIN, LEFT OUTER JOIN ,RIGHT OUTER JOIN ,FULL OUTER JOIN)
-`
+(Inner JOIN, LEFT OUTER JOIN ,RIGHT OUTER JOIN ,FULL OUTER JOIN)`
 
-`
-BUILD A DATA PIPELINE WITH HIVE
+`2. BUILD A DATA PIPELINE WITH HIVE
 
 Download a data from the given location - 
 https://archive.ics.uci.edu/ml/machine-learning-databases/00360/
@@ -245,5 +242,4 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/00360/
 15. distinct operation you have to perform . 
 16. like an operation you have to perform . 
 17. union operation you have to perform . 
-18. table view operation you have to perform . 
-`
+18. table view operation you have to perform . `
