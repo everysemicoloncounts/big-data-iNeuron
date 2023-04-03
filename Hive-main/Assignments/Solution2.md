@@ -213,11 +213,5 @@ Once the configuration is updated, Hive will be able to use the new nodes in its
 
 ## Hive Practical questions:
 
-`1. Hive Join operations
-
-Create a  table named CUSTOMERS(ID | NAME | AGE | ADDRESS   | SALARY)
-Create a Second  table ORDER(OID | DATE | CUSTOMER_ID | AMOUNT
-)
-
-Now perform different joins operations on top of these tables
+`1. Hive Join operations: Create a  table named CUSTOMERS(ID | NAME | AGE | ADDRESS | SALARY) and then Create a Second  table ORDER(OID | DATE | CUSTOMER_ID | AMOUNT). Now perform different joins operations on top of these tables
 (Inner JOIN, LEFT OUTER JOIN ,RIGHT OUTER JOIN ,FULL OUTER JOIN)`
