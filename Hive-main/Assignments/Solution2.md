@@ -221,25 +221,3 @@ Create a Second  table ORDER(OID | DATE | CUSTOMER_ID | AMOUNT
 
 Now perform different joins operations on top of these tables
 (Inner JOIN, LEFT OUTER JOIN ,RIGHT OUTER JOIN ,FULL OUTER JOIN)`
-
-`2. BUILD A DATA PIPELINE WITH HIVE
-
-Download a data from the given location - 
-https://archive.ics.uci.edu/ml/machine-learning-databases/00360/
-
-1. Create a hive table as per given schema in your dataset 
-2. try to place a data into table location
-3. Perform a select operation . 
-4. Fetch the result of the select operation in your local as a csv file . 
-5. Perform group by operation . 
-7. Perform filter operation at least 5 kinds of filter examples . 
-8. show and example of regex operation
-9. alter table operation 
-10. drop table operation
-12. order by operation . 
-13. where clause operations you have to perform . 
-14. sorting operation you have to perform . 
-15. distinct operation you have to perform . 
-16. like an operation you have to perform . 
-17. union operation you have to perform . 
-18. table view operation you have to perform . `
