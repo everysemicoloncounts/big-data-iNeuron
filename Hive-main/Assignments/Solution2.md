@@ -23,33 +23,58 @@ Now, after inserting 50,000 records in this table, I want to know the total reve
 
 To solve the problem of slow query processing in Hive for calculating total revenue generated for each month from the "transaction_details" table with 50,000 records, the following steps can be taken:
 
-    1. Partition the table: Partitioning the table by the "month" column can significantly speed up the query processing. This can be done using the following command:
-    ```
-    ALTER TABLE transaction_details ADD PARTITION (month='Jan') LOCATION '/path/to/Jan';
+1. Partition the table: Partitioning the table by the "month" column can significantly speed up the query processing. This can be done using the following command:
+```
+ALTER TABLE transaction_details ADD PARTITION (month='Jan') LOCATION '/path/to/Jan';
 
-    ```
-    The above command creates a partition for the "Jan" month and specifies the location where the data for that partition will be stored.
-    Repeat this command for all the other months in the table.
+```
+The above command creates a partition for the "Jan" month and specifies the location where the data for that partition will be stored.
+Repeat this command for all the other months in the table.
 
-    2. Use the partitioned column in the query: Modify the query to use the partitioned column in the WHERE clause to filter the data for each month. This will limit the amount of data that needs to be processed by the query.
-    ```
-    SELECT month, SUM(amount) as total_revenue 
-    FROM transaction_details 
-    WHERE month='Jan'
-    GROUP BY month;
+2. Use the partitioned column in the query: Modify the query to use the partitioned column in the WHERE clause to filter the data for each month. This will limit the amount of data that needs to be processed by the query.
+```
+SELECT month, SUM(amount) as total_revenue 
+FROM transaction_details 
+WHERE month='Jan'
+GROUP BY month;
 
-    ```
-    Repeat the above query for all the other months in the table.
+```
+Repeat the above query for all the other months in the table.
 
-    3. Use bucketing: Bucketing can also help in improving query performance by dividing data into smaller and more manageable chunks. However, in this case, since the table has only 50,000 records, partitioning should be sufficient.
+3. Use bucketing: Bucketing can also help in improving query performance by dividing data into smaller and more manageable chunks. However, in this case, since the table has only 50,000 records, partitioning should be sufficient.
 
-    4. Optimize query configuration: If the above steps don't improve the query performance, then you can try optimizing the query configuration parameters such as the number of reducers and the memory allocation for each task.
-    For example, you can increase the number of reducers to distribute the processing workload across multiple nodes, or increase the memory allocation for each task to avoid out-of-memory errors.
+4. Optimize query configuration: If the above steps don't improve the query performance, then you can try optimizing the query configuration parameters such as the number of reducers and the memory allocation for each task.
+For example, you can increase the number of reducers to distribute the processing workload across multiple nodes, or increase the memory allocation for each task to avoid out-of-memory errors.
 
 By following the above steps, the query processing time can be significantly reduced, and you can get the total revenue generated for each month from the "transaction_details" table more efficiently.
 
 
 `4. How can you add a new partition for the month December in the above partitioned table?`
+
+To add a new partition for the month of December in the partitioned table "transaction_details", follow these steps:
+
+1. Create a new directory for the December partition:
+```
+hdfs dfs -mkdir /path/to/transaction_details/month=Dec
+
+```
+
+2. Move the data files for December to the new directory:
+```
+hdfs dfs -cp /path/to/transaction_details/datafile_December /path/to/transaction_details/month=Dec
+
+```
+Repeat the above command for all the data files for the December partition.
+
+3. Add the partition to the table:
+```
+ALTER TABLE transaction_details ADD PARTITION (month='Dec') LOCATION '/path/to/transaction_details/month=Dec';
+
+```
+
+The above command will add a new partition for the month of December to the table "transaction_details".
+
+After executing the above steps, the partition for the month of December will be added to the table, and you will be able to run queries on this partition.
 
 `5. I am inserting data into a table based on partitions dynamically. But, I received an error – FAILED ERROR IN SEMANTIC ANALYSIS: Dynamic partition strict mode requires at least one static partition column. How will you remove this error?`
 
