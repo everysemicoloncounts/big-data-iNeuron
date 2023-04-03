@@ -69,14 +69,14 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/00360/
 7. Perform filter operation at least 5 kinds of filter examples . 
 8. show and example of regex operation
 9. alter table operation 
-10 . drop table operation
-12 . order by operation . 
-13 . where clause operations you have to perform . 
-14 . sorting operation you have to perform . 
-15 . distinct operation you have to perform . 
-16 . like an operation you have to perform . 
-17 . union operation you have to perform . 
-18 . table view operation you have to perform . 
+10. drop table operation
+12. order by operation . 
+13. where clause operations you have to perform . 
+14. sorting operation you have to perform . 
+15. distinct operation you have to perform . 
+16. like an operation you have to perform . 
+17. union operation you have to perform . 
+18. table view operation you have to perform . 
 
 
 
