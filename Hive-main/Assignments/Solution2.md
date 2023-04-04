@@ -215,3 +215,65 @@ Once the configuration is updated, Hive will be able to use the new nodes in its
 
 `1. Hive Join operations: Create a  table named CUSTOMERS(ID | NAME | AGE | ADDRESS | SALARY) and then Create a Second  table ORDER(OID | DATE | CUSTOMER_ID | AMOUNT). Now perform different joins operations on top of these tables
 (Inner JOIN, LEFT OUTER JOIN ,RIGHT OUTER JOIN ,FULL OUTER JOIN)`
+
+Here's an example of creating two Hive tables named CUSTOMERS and ORDERS and performing different types of joins between them:
+
+```
+-- Create CUSTOMERS table
+CREATE TABLE CUSTOMERS (
+  ID INT,
+  NAME STRING,
+  AGE INT,
+  ADDRESS STRING,
+  SALARY FLOAT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+
+-- Load data into CUSTOMERS table
+LOAD DATA LOCAL INPATH '/path/to/customers.csv' OVERWRITE INTO TABLE CUSTOMERS;
+
+-- Create ORDERS table
+CREATE TABLE ORDERS (
+  OID INT,
+  DATE STRING,
+  CUSTOMER_ID INT,
+  AMOUNT FLOAT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+
+-- Load data into ORDERS table
+LOAD DATA LOCAL INPATH '/path/to/orders.csv' OVERWRITE INTO TABLE ORDERS;
+
+-- Inner join between CUSTOMERS and ORDERS tables on CUSTOMER_ID
+SELECT *
+FROM CUSTOMERS
+JOIN ORDERS
+ON CUSTOMERS.ID = ORDERS.CUSTOMER_ID;
+
+-- Left outer join between CUSTOMERS and ORDERS tables on CUSTOMER_ID
+SELECT *
+FROM CUSTOMERS
+LEFT OUTER JOIN ORDERS
+ON CUSTOMERS.ID = ORDERS.CUSTOMER_ID;
+
+-- Right outer join between CUSTOMERS and ORDERS tables on CUSTOMER_ID
+SELECT *
+FROM CUSTOMERS
+RIGHT OUTER JOIN ORDERS
+ON CUSTOMERS.ID = ORDERS.CUSTOMER_ID;
+
+-- Full outer join between CUSTOMERS and ORDERS tables on CUSTOMER_ID
+SELECT *
+FROM CUSTOMERS
+FULL OUTER JOIN ORDERS
+ON CUSTOMERS.ID = ORDERS.CUSTOMER_ID;
+
+```
+
+In the above example, we first create two tables named CUSTOMERS and ORDERS with the specified columns. We then load data into these tables using the `LOAD DATA` command.
+
+We then perform four different types of joins between the CUSTOMERS and ORDERS tables using the `JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, and `FULL OUTER JOIN` commands, respectively. The results of each join are returned as a new table that combines the columns from both tables based on the join condition.
+
+Note that the join condition in these examples is based on the `CUSTOMER_ID` column in the ORDERS table matching the ID column in the CUSTOMERS table. You can modify the join condition based on the specific requirements of your use case.
