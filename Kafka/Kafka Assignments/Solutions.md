@@ -1,4 +1,4 @@
-1. MySQL Table (Table should have some column like created_at or updated_at so that can be used for incremental read)
+### 1. MySQL Table (Table should have some column like created_at or updated_at so that can be used for incremental read)
 
 To create a MySQL table with columns for created_at and updated_at timestamps, you can use the following SQL statement:
 
@@ -18,7 +18,7 @@ The created_at column is set to the current timestamp when a new row is inserted
 
 Including these timestamp columns allows you to track the creation and modification times of your data, enabling incremental read operations based on these timestamps.
 
-2. Write a python script which is running in infinite loop and inserting 4-5 dummy/dynamically prepared records
+### 2. Write a python script which is running in infinite loop and inserting 4-5 dummy/dynamically prepared records
     in MySQL Table
 
 ```
@@ -81,7 +81,7 @@ Make sure to replace the following placeholders with your own MySQL database con
 
 The script generates random data for the dummy records and inserts them into the specified table using parameterized queries. It continuously runs in an infinite loop, inserting 4-5 new dummy records in each iteration.
 
-3. Setup Confluent Kafka
+### 3. Setup Confluent Kafka
 
 Download Confluent Platform: Visit the Confluent website at https://www.confluent.io/download to download the Confluent Platform distribution that matches your operating system.
 
@@ -121,7 +121,7 @@ Replace your_topic_name with the name of your Kafka topic.
 
 These steps provide a basic setup of Confluent Kafka, including starting ZooKeeper, Kafka brokers, creating a topic, and producing/consuming messages. You can further customize the configuration and explore more advanced features of Kafka based on your requirements. Refer to the Confluent documentation for more detailed information and additional configuration options.
 
-4. Create Topic
+### 4. Create Topic
 
 To create a topic in Confluent Kafka, you can use the kafka-topics command-line tool. Here's an example command to create a topic:
 
@@ -140,7 +140,7 @@ Here's a breakdown of the command and its options:
 
 After running the command, Kafka will create the topic with the specified settings. You can then use the created topic for producing and consuming messages.
 
-5. Create json schema on schema registry (depends on what kind of data you are publishing in mysql table)
+### 5. Create json schema on schema registry (depends on what kind of data you are publishing in mysql table)
 
 ```
 {
@@ -170,7 +170,7 @@ The value.schema property in the command specifies the JSON schema for the messa
 
 By running the command, the JSON schema will be registered on the Schema Registry, and subsequent messages produced with this schema will be validated against it.
 
-6. Write a producer code which will read the data from MySQL table incrementally (hint : use and maintain create_at column)
+### 6. Write a producer code which will read the data from MySQL table incrementally (hint : use and maintain create_at column)
 ```
 import mysql.connector
 from mysql.connector import Error
@@ -271,8 +271,8 @@ In this code:
 
     The loop pauses for a specified duration (in this case, 60 seconds) before the next iteration.
 
-7. Producer will publish data in Kafka Topic
-8. Write consumer group to consume data from Kafka topic
+### 7. Producer will publish data in Kafka Topic
+### 8. Write consumer group to consume data from Kafka topic
 
 ```
 from kafka import KafkaConsumer
@@ -302,7 +302,7 @@ The consumer is configured to subscribe to the specified topic, connecting to th
 
 The code enters a loop and consumes messages from the Kafka topic. Each message is deserialized as JSON, and you can process the consumed data as needed. In this example, the code simply prints the consumed data, but you can modify it to perform any required processing or actions.
 
-9. In Kafka consumer code do some changes or transformation for each record and write it in Cassandra table
+### 9. In Kafka consumer code do some changes or transformation for each record and write it in Cassandra table
 
 ```
 from kafka import KafkaConsumer
